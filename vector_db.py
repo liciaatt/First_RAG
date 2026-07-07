@@ -8,15 +8,8 @@ from config import EMBEDDING_MODEL, CHROMA_PATH, COLLECTION_NAME
 
 class VectorDB:
     def __init__(self, chunks=None):
-        # 1. On ouvre un client ChromaDB PERSISTANT :
-        #    les données sont sauvegardées sur le disque (dossier chroma_db)
-        #    et survivent à l'arrêt du programme
         self.client = chromadb.PersistentClient(path=CHROMA_PATH)
 
-        # 2. L'aiguillage du constructeur (le point clé du TP !) :
-        #    la base existe déjà ? on la RECHARGE
-        #    sinon, on a des chunks ? on la CRÉE
-        #    sinon → erreur explicite
         noms_collections = [c.name for c in self.client.list_collections()]
 
         if COLLECTION_NAME in noms_collections:
@@ -77,8 +70,6 @@ class VectorDB:
             include=["documents", "metadatas", "distances"],
         )
 
-        # Filet de securite : si la structure renvoyee n'est pas celle attendue,
-        # on affiche un diagnostic clair plutot qu'une erreur cryptique.
         if not isinstance(resultats, dict):
             print("⚠️ DIAGNOSTIC — type inattendu renvoye par collection.query() :")
             print("TYPE:", type(resultats))
