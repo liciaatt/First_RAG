@@ -1,4 +1,4 @@
 .env
 venv/
 __pycache__/
-chroma_db/
+chroma_db/05_mini_TP_demo_mon_premier_RAG.pdf
