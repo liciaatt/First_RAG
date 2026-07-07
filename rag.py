@@ -20,11 +20,10 @@ class RAG:
 
     def _build_system_prompt(self, question):
         """Recupere les chunks pertinents et les injecte dans le prompt a trous."""
-        results = self.vector_db.retrieve(question, n=N_CHUNKS_RETRIEVED)
-
-        documents = results["documents"][0]
+        # vector_db.retrieve() renvoie directement une liste de textes
+        # (cf. implementation de la Brique 1 : resultats["documents"][0])
+        documents = self.vector_db.retrieve(question, n=N_CHUNKS_RETRIEVED)
         chunks_text = "\n".join(f"- {doc}" for doc in documents)
-
         return self.system_prompt_template.replace("{{Chunks}}", chunks_text)
 
     def answer_question(self, question):

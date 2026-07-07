@@ -3,17 +3,17 @@
 import csv
 from rag import RAG
 
+
 def load_chunks_from_csv(path):
+    """Charge uniquement les textes des chunks (liste de str),
+    format attendu par la Brique 1 (VectorDB._creer)."""
     chunks = []
     with open(path, encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
-            chunks.append({
-                "id": row["id"],
-                "text": row["text"],
-                "source": row["source"]
-            })
+            chunks.append(row["text"])
     return chunks
+
 
 if __name__ == "__main__":
     chunks = load_chunks_from_csv("data/05_corpus_rag.csv")
